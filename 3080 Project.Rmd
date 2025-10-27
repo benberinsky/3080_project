@@ -1,0 +1,29 @@
+---
+title: "3080 Project"
+author: "Drew Girvin"
+date: "2025-10-27"
+output: pdf_document
+---
+
+```{r}
+NL<-read.csv("NL Batting Stats.csv")
+AL<-read.csv("AL Batting Stats.csv")
+
+# Remove totals rows
+AL <- AL[AL$Player != "Team Totals" & AL$Player != "League Totals", ]
+NL <- NL[NL$Player != "Team Totals" & NL$Player != "League Totals", ]
+
+# Filter out players with low AB to greater than 100)
+AL <- AL[AL$AB >= 100, ]
+NL <- NL[NL$AB >= 100, ]
+
+# Convert batting average to numeric
+AL$BA <- as.numeric(AL$BA)
+NL$BA <- as.numeric(NL$BA)
+
+# Remove rows with missing BA values
+AL <- AL[!is.na(AL$BA), ]
+NL <- NL[!is.na(NL$BA), ]
+
+summary(AL$BA)
+summary(NL$BA)
