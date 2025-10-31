@@ -1,13 +1,20 @@
 ---
-title: "3080 Project"
-author: "Drew Girvin"
-date: "2025-10-27"
+title: "Project Part 1" 
+fontsize: 12pt
+geometry: margin=1in
+urlcolor: black
 output: pdf_document
+header-includes:
+- \usepackage{setspace}
+- \onehalfspacing
 ---
-```{r}
-library(ggplot2)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, highlight=FALSE)
 ```
 
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(ggplot2)
+```
 
 ## Introduction
 
@@ -83,7 +90,7 @@ summary(NL$HR)
 ```
 
 Side-by-side histograms - Distribution of batting average (BA) for NL vs AL players
-```{r}
+```{r, echo=FALSE}
 ggplot() +
   geom_histogram(data = AL, aes(x = BA, fill = "AL"), alpha = 0.5, position = "identity", bins = 20) +
   geom_histogram(data = NL, aes(x = BA, fill = "NL"), alpha = 0.5, position = "identity", bins = 20) +
@@ -94,7 +101,7 @@ ggplot() +
   theme_minimal()
 ```
 
-```{r}
+```{r, echo=FALSE}
 ggplot() +
   geom_point(data = AL, aes(x = AB, y = BA, color = "AL"), alpha = 0.6) +
   geom_point(data = NL, aes(x = AB, y = BA, color = "NL"), alpha = 0.6) +
@@ -106,7 +113,7 @@ ggplot() +
 ```
 
 Bar chart - Total HR by team within the NL only
-```{r}
+```{r, echo=FALSE}
 ggplot(NL, aes(x = Team, y = HR, fill = Team)) +
   geom_bar(stat = "identity") +
   labs(title = "Total Home Runs (HR) by Team in the National League",
@@ -118,7 +125,7 @@ ggplot(NL, aes(x = Team, y = HR, fill = Team)) +
 ```
 
 Bar chart - Total HR by team within the NL only
-```{r}
+```{r, echo=FALSE}
 ggplot(AL, aes(x = Team, y = HR, fill = Team)) +
   geom_bar(stat = "identity") +
   labs(title = "Total Home Runs (HR) by Team in the American League",
