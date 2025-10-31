@@ -18,18 +18,18 @@ library(ggplot2)
 
 ## Introduction
 
-Major League Baseball has long been divided into two separate but not identical leagues of the American League and the National League. One key distinction for decades set the two leagues apart in that only the American League allowed the use of the designated hitter which is a player who bats in place of the pitcher. In the 2022-2023 season, the National League adopted the DH rule for the first time, marking a significant change in how both leagues approached offensive play. The American league historically had been better at hitting than the National league since their adoption of the Designated Hitter in 1973, and therefore ultimately led to the NL following in its path. The DH creates deeper lineups which are a bigger threat to opposing teams defenses. Instead of having an almost guaranteed out every time through the lineup they now have normally one of the best hitters on the team taking that spot.
+Major League Baseball has long been divided into two separate but not identical leagues of the American League and the National League. One key distinction for decades set the two leagues apart in that only the American League allowed the use of the designated hitter which is a player who bats in place of the pitcher. In the 2022 season, the National League adopted the DH rule for the first time, marking a significant change in how both leagues approached offensive play. The American league historically had been better at hitting than the National league since their adoption of the Designated Hitter in 1973, and therefore ultimately led to the NL following in its path. The DH creates deeper lineups which are a bigger threat to opposing teams defenses. Instead of having an almost guaranteed out every time through the lineup they now have normally one of the best hitters on the team taking that spot.
 
 The addition of the DH to the National League was one of the biggest changes to the game since the adoption of interleague play which took place in 1997. Before 1997, the AL and the NL only played each other in official games in the World Series. In 2023 the interleague policy was also updated to where teams now play 46 interleague games each season, this was an increase from the previous 20 games a team would play in the previous season. Each team plays every other team in the league at least once annually, with the schedule including 4 games against a rival interleague team and 3 games against the other 14 non-league opponents. The remaining games are 52 intradivision games which is 13 against each of the four divisional opponents and 64 intraleague games which are against the other ten teams in their own league. With these scheduling changes this decreases the issue of teams having easier schedules than other teams, an issue that leagues like the NFL face where each team does not play every team each year. as well as ensuring each team plays a more balanced and consistent set of opponents from both leagues throughout the season.
 
-The changing in schedules and the addition of the DH to the National League is what drew us to looking at differences in league batting in the 2022-2023 season. These changes have significant impact on baseball as a whole with it potentially giving leagues a better chance to succeed and win the World Series. We want to see if either league has statistically significant better hitters.
+The changing in schedules and the addition of the DH to the National League is what drew us to looking at differences in league batting in the 2022 season. These changes have significant impact on baseball as a whole with it potentially giving leagues a better chance to succeed and win the World Series. We want to see if either league has statistically significant better hitters.
 
 In our research project we are looking at three questions that test to see if league offence is significantly better comparing the National League to the American League.
 
 ### Questions:
 
-1)  Did MLB players in the American league hit a significantly different number of home runs than players in the National League in 2022-2023?
-2)  Did MLB players in the American league have a significantly different batting average than players in the National League in 2022-2023?
+1)  Did MLB players in the American league hit a significantly different number of home runs than players in the National League in 2022?
+2)  Did MLB players in the American league have a significantly different batting average than players in the National League in 2022?
 3)  Did MLB players in the American league have a significantly different number of at bats on average than those in the National league?
 
 We chose home runs, batting average and number of at bats as our three test variables that we want to look at. We believe that these give a good summary of a teams offence because the way baseball is played in this current era, the homerun ball is a significant factor but high batting averages and number of at bats also plays a key role as it shows how fast a league is turning over the batting order and how productive they are being when a league’s player is at the plate.
@@ -61,9 +61,9 @@ AL <- AL[!is.na(AL$HR), ]
 NL <- NL[!is.na(NL$HR), ]
 ```
 
-For the data collection process of the project we retrieved our data from baseball-reference which is a database that compiles statistics of the MLB throughout the years. It is a highly trusted site and pulls its data from a variety of sources, but they pull from official MLB statistics and box scores using the MLB’s scoring system and this is the foundation of player performance metrics which we are using in our project. The data we are using represents the population because we pulled the batting statistics for all MLB players in the American League and National League for the 2022-2023 season. We did not use any sampling methods because the data is of all the players that recorded statistics in the 2022-2023 season. This would not be a sample because it includes everyone in the population of our research question. After we collected both the NL csv file and the Al csv file we cleaned the data by filtering out players with low at bats to make it so it is only players with greater than 100 at bats in the season. We did this because players with a very small number of at bats can add noise to the data set with their misleading batting averages. A player could go 1-2 for the season and have a .500 batting average and another player could go 200-500 for the year and have a batting average of .400. While the .500 is better, we don’t trust it because the sample size is 2 at bats. By getting rid of the plays that bat less than 100 times we are making our dataset better suited to compare the leagues.
+For the data collection process of the project we retrieved our data from baseball-reference which is a database that compiles statistics of the MLB throughout the years. It is a highly trusted site and pulls its data from a variety of sources, but they pull from official MLB statistics and box scores using the MLB’s scoring system and this is the foundation of player performance metrics which we are using in our project. The data we are using represents the population because we pulled the batting statistics for all MLB players in the American League and National League for the 2022 season. We did not use any sampling methods because the data is of all the players that recorded statistics in the 2022 season. This would not be a sample because it includes everyone in the population of our research question. After we collected both the NL csv file and the Al csv file we cleaned the data by filtering out players with low at bats to make it so it is only players with greater than 100 at bats in the season. We did this because players with a very small number of at bats can add noise to the data set with their misleading batting averages. A player could go 1-2 for the season and have a .500 batting average and another player could go 200-500 for the year and have a batting average of .400. While the .500 is better, we don’t trust it because the sample size is 2 at bats. By getting rid of the plays that bat less than 100 times we are making our dataset better suited to compare the leagues.
 
-The only potential issue that is not accounted for are ballparks that are historically easier to hit the ball in like Coors Field and Fenway Park. Those teams that play more often in those parks are more likely to perform better and that not only has a home team impact but also an intradivision and intraleague impact, since they will be playing there more often than those in the interleague. I believe this will not be an issue since there isn’t one division with significantly more hitter friendly ballparks. Despite this challenge, the data is appropriate for our research questions because it directly measures the batting performance metrics we are analyzing and it provides full coverage of the MLB population for the 2022-2023 season
+The only potential issue that is not accounted for are ballparks that are historically easier to hit the ball in like Coors Field and Fenway Park. Those teams that play more often in those parks are more likely to perform better and that not only has a home team impact but also an intradivision and intraleague impact, since they will be playing there more often than those in the interleague. I believe this will not be an issue since there isn’t one division with significantly more hitter friendly ballparks. Despite this challenge, the data is appropriate for our research questions because it directly measures the batting performance metrics we are analyzing and it provides full coverage of the MLB population for the 2022 season
 
 ## Data Dictionary
 
@@ -88,8 +88,20 @@ Summary statistics for home runs:
 summary(AL$HR)
 summary(NL$HR)
 ```
+Summary statistics for at bats:
+```{r}
+summary(AL$AB)
+summary(NL$AB)
+```
+Total Home Runs by League:
+```{r}
+total_HR_AL <- sum(AL$HR)
+total_HR_NL <- sum(NL$HR)
+cat("AL Home Run Totals:", total_HR_AL, "\n")
+cat("NL Home Run Totals:", total_HR_NL, "\n")
+```
 
-Side-by-side histograms - Distribution of batting average (BA) for NL vs AL players
+Overlayed Histograms - Distribution of batting average (BA) for NL vs AL players
 ```{r, echo=FALSE}
 ggplot() +
   geom_histogram(data = AL, aes(x = BA, fill = "AL"), alpha = 0.5, position = "identity", bins = 20) +
@@ -101,6 +113,7 @@ ggplot() +
   theme_minimal()
 ```
 
+Scatterplot of At Bats vs. Batting Average for NL and AL players
 ```{r, echo=FALSE}
 ggplot() +
   geom_point(data = AL, aes(x = AB, y = BA, color = "AL"), alpha = 0.6) +
@@ -111,27 +124,14 @@ ggplot() +
   scale_color_manual(name = "League", values = c("AL" = "blue", "NL" = "red")) +
   theme_minimal()
 ```
-
-Bar chart - Total HR by team within the NL only
+Boxplot - Home Runs (HR) for NL vs AL players
 ```{r, echo=FALSE}
-ggplot(NL, aes(x = Team, y = HR, fill = Team)) +
-  geom_bar(stat = "identity") +
-  labs(title = "Total Home Runs (HR) by Team in the National League",
-       x = "Team",
-       y = "Total Home Runs (HR)") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  guides(fill = FALSE)
-```
-
-Bar chart - Total HR by team within the NL only
-```{r, echo=FALSE}
-ggplot(AL, aes(x = Team, y = HR, fill = Team)) +
-  geom_bar(stat = "identity") +
-  labs(title = "Total Home Runs (HR) by Team in the American League",
-       x = "Team",
-       y = "Total Home Runs (HR)") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  guides(fill = FALSE)
+ggplot() +
+  geom_boxplot(data = AL, aes(x = "AL", y = HR, fill = "AL"), alpha = 0.5) +
+  geom_boxplot(data = NL, aes(x = "NL", y = HR, fill = "NL"), alpha = 0.5) +
+  labs(title = "Boxplot of Home Runs (HR) for NL vs AL Players",
+       x = "League",
+       y = "Home Runs (HR)") +
+  scale_fill_manual(name = "League", values = c("AL" = "blue", "NL" = "red")) +
+  theme_minimal()
 ```
