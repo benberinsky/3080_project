@@ -13,7 +13,9 @@ knitr::opts_chunk$set(echo = TRUE, highlight=FALSE)
 ```
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(tidyverse)
 library(ggplot2)
+library(knitr)
 ```
 
 ## Introduction
@@ -59,6 +61,12 @@ NL <- NL[!is.na(NL$BA), ]
 # Remove rows with missing HR values
 AL <- AL[!is.na(AL$HR), ]
 NL <- NL[!is.na(NL$HR), ]
+
+# Combining df into one 
+combined_data <- rbind(
+  data.frame(League = "AL", AL),
+  data.frame(League = "NL", NL)
+)
 ```
 
 For the data collection process of the project we retrieved our data from baseball-reference which is a database that compiles statistics of the MLB throughout the years. It is a highly trusted site and pulls its data from a variety of sources, but they pull from official MLB statistics and box scores using the MLB’s scoring system and this is the foundation of player performance metrics which we are using in our project. The data we are using represents the population because we pulled the batting statistics for all MLB players in the American League and National League for the 2022 season. We did not use any sampling methods because the data is of all the players that recorded statistics in the 2022 season. This would not be a sample because it includes everyone in the population of our research question. After we collected both the NL csv file and the Al csv file we cleaned the data by filtering out players with low at bats to make it so it is only players with greater than 100 at bats in the season. We did this because players with a very small number of at bats can add noise to the data set with their misleading batting averages. A player could go 1-2 for the season and have a .500 batting average and another player could go 200-500 for the year and have a batting average of .400. While the .500 is better, we don’t trust it because the sample size is 2 at bats. By getting rid of the plays that bat less than 100 times we are making our dataset better suited to compare the leagues.
@@ -80,18 +88,53 @@ The only potential issue that is not accounted for are ballparks that are histor
 
 Summary statistics for batting average:
 ```{r}
-summary(AL$BA)
-summary(NL$BA)
+ba_summary <- combined_data %>%
+  group_by(League) %>%
+  summarize(medba = median(BA, na.rm = TRUE),
+            meanba = mean(BA, na.rm = TRUE),
+            sdba = sd(BA, na.rm = TRUE),
+            maxba = max(BA, na.rm = TRUE)) 
 ```
+
+```{r}
+ba_summary %>%kable(col.names =c("Leauge", "Median", "Mean", "StDev", "Maximum"),
+        caption = "Batting Average Summary Statistics by League",
+        digits = 3,
+        align = "cccccc")
+```
+
 Summary statistics for home runs:
 ```{r}
-summary(AL$HR)
-summary(NL$HR)
+hr_summary <- combined_data %>%
+  group_by(League) %>%
+  summarize(medhr = median(HR, na.rm = TRUE),
+            meanhr = mean(HR, na.rm = TRUE),
+            sdhr = sd(HR, na.rm = TRUE),
+            maxhr = max(HR, na.rm = TRUE)) 
 ```
+
+```{r}
+hr_summary %>%kable(col.names =c("Leauge", "Median", "Mean", "StDev", "Maximum"),
+        caption = "Home Run Summary Statistics by League",
+        digits = 1,
+        align = "cccccc")
+```
+
 Summary statistics for at bats:
 ```{r}
-summary(AL$AB)
-summary(NL$AB)
+ab_summary <- combined_data %>%
+  group_by(League) %>%
+  summarize(medab = median(AB, na.rm = TRUE),
+            meanab = mean(AB, na.rm = TRUE),
+            sdab = sd(AB, na.rm = TRUE),
+            maxab = max(AB, na.rm = TRUE)) 
+```
+
+```{r}
+ab_summary %>%kable(col.names =c("Leauge", "Median", "Mean", "StDev", "Maximum"),
+        caption = "Batting Average Summary Statistics by League",
+        digits = 1,
+        align = "cccccc")
 ```
 Total Home Runs by League:
 ```{r}
@@ -135,3 +178,30 @@ ggplot() +
   scale_fill_manual(name = "League", values = c("AL" = "blue", "NL" = "red")) +
   theme_minimal()
 ```
+Boxplot of batting average by leauge
+```{r, echo=FALSE}
+ggplot(combined_data, aes(x = League, y = BA, fill = League)) +
+  geom_boxplot(alpha = 0.7) +
+  labs(title = "Boxplot of Batting Average (BA) by League",
+       x = "League",
+       y = "Batting Average (BA)") +
+  scale_fill_manual(values = c("AL" = "blue", "NL" = "red")) +
+  theme_minimal()
+```
+
+
+## Conclusions
+
+The four summary statistics show the leagues to be very comparable in batting averages, at bats, and home runs. For starters, the summary comparing batting averages of AL and NL players shows the leagues to be similar. However, while all values are within .0300 of each other, the National League shows slightly higher percentages across the board, suggesting NL hitters may be slightly more efficient than those in the AL. The summary of home run statistics show a similar story, with the values being very similar between the leagues asides from the NL having a higher maximum number of home runs. The total number of home runs in each league are within 5%, but the NL takes the lead with players hitting 118 more home runs than their AL counterparts. Interestingly, for at bats, the AL has a higher median and mean than the NL, suggesting that despite lower batting averages and home runs hit, American League batters are stepping up to the plate more often. 
+
+Figure 1 showing the distribution of batting averages for AL and NL players confirms the statistical summary. Both leagues have a similar mean, median, and spread when it comes to player batting averages. Notably, however, the AL has more players with a batting average less than .150, and the National League has more players with a batting average greater than .325. These skews may be important to look at further along. Figure 2, the graph of batting average against at bats, gives us more information, as the positive trend suggests players with more at bats have a higher batting average. This stat holds true for both leagues, and makes sense considering players with more at bats are likely better get more head-to-head experience than bench players or pinch hitters that have less at bats. Lastly, Figure 3 showing box plots of AL and NL home runs confirms the statistical summary given. Both leagues are very similar, with the National League  having more outlying batters with lots of home runs, also lending to the greater spread of the IQR.
+
+With these data summaries and visualizations, it appears that AL and NL batters are similar in many key areas. However, there are some slight differences to consider. For example, the fact that AL hitters tend to get more plate appearances, or that NL batters tend to have a higher batting average. With this in mind, it is important to do more statistical analysis and modeling to understand if these differences are due to specific players, or come from the history and state of the two leagues.
+
+## Data appendix
+
+```{r}
+# Printing a readable output of combined data as a tibble, first 15 rows:
+combined_data %>% as_tibble() %>% head(15)
+```
+
